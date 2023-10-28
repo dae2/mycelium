@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response, session
 
 app = Flask(__name__)
-app.secret_key = 'WSSARMSHA'
+app.secret_key = 'PUTIN_BOMBA_WZRIW_CHECHNYA'
 
 
 @app.route('/success/<name>')
