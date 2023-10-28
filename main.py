@@ -1,40 +1,85 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response, session
+import sqlite3
+import library.tokens as tokens
+
+
+
+connection = sqlite3.connect("data/users.db", check_same_thread=False)
+cursor = connection.cursor()
 
 app = Flask(__name__)
-app.secret_key = 'PUTIN_BOMBA_WZRIW_CHECHNYA'
+key = 'PUTIN_BOMBA_WZRIW_CHECHNYA'
+app.secret_key = key
 
 
-@app.route('/success/<name>')
-def success(name):
-   return 'welcome %s' % name
 
-@app.route('/logincss')
-def logincss():
-    return render_template('css/login.css')
+
+@app.route('/registercss')
+def registercss():
+    return render_template('css/register.css')
 
 
 @app.route('/')
 def main():
     return render_template('main.html')
 
+@app.route('/exit')
+def exit():
+    token = session.get('token')
+    if not token:
+        return redirect(url_for('register'))
+    else:
+        for key in list(session.keys()):
+            session.pop(key)
+        return redirect(url_for('register'))
 
 
 
+@app.route('/changename', methods = ['POST', 'GET'])
+def changename():
+    token = session.get('token')
+    if not token:
+        return redirect(url_for('register'))
+    else:
+        if request.method == 'POST':
+            user = request.form['n']
+            cursor.execute("UPDATE oauth SET name = '{}' WHERE token = '{}'".format(user, token))
+            connection.commit()
+            return redirect(url_for('account'))
+        else:
+            return render_template('changename.html')
+@app.route('/account')
+def account():
+    token = session.get('token')
+    if not token:
+        return redirect(url_for('register'))
+    else:
+        name = cursor.execute("SELECT name FROM oauth WHERE token = '{}'".format(token)).fetchone()[0]
+        return render_template('account.html', name = name)
 
-@app.route('/login', methods = ['POST', 'GET'])
-def login():
+
+@app.route('/register', methods = ['POST', 'GET'])
+def register():
     if request.method == 'POST':
         user = request.form['u']
         password = request.form['p']
-        session['user_id'] = user
-        return redirect(url_for('success', name=user))
-
-    else:
-        user_id = session.get('user_id')
-        if not user_id:
-            return render_template('login.html')
+        token = tokens.generate_token(user, password)
+        cursor.execute("SELECT mail FROM oauth WHERE token = '{}'".format(token))
+        data = cursor.fetchone()
+        if data is None:
+            cursor.execute(f"INSERT INTO oauth VALUES('{user}', '{token}')")
+            connection.commit()
+            session['token'] = token
+            return redirect(url_for('account'))
         else:
-            return redirect(url_for('success', name=user_id))
+            session['token'] = token
+            return redirect(url_for('account'))
+    else:
+        token = session.get('token')
+        if not token:
+            return render_template('register.html')
+        else:
+            return redirect(url_for('account'))
 
 if __name__ == '__main__':
     app.run(port=80)
