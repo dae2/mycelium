@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+    }
+
+    nav {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      margin: 10px;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Добро пожаловать на нашу платформу</h1>
+  </header>
+  <nav>
+    <a href="{{ url_for('login') }}">аккаунт</a>
+    <a href="#">О нас</a>
+    <a href="#">Контакты</a>
+  </nav>
+  <main>
+    <h2>О нашей платформе</h2>
+    <p>Мы предоставляем инновационные решения для обучения и тестирования сотрудников.</p>
+    <p>Создайте свой портал и начните обучение уже сегодня.</p>
+  </main>
+  <footer>
+    <p>&copy; 2023 MYcelium</p>
+  </footer>
+</body>
+
+</html>
