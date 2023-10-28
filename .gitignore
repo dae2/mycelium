@@ -7,3 +7,5 @@
 .idea/inspectionProfiles/Project_Default.xml
 __pycache__/token.cpython-310.pyc
 library/__pycache__/tokens.cpython-310.pyc
+/.vscode/
+
