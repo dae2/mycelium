@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="registercss">
+<head>
+  <style>
+    nav {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 5px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      margin: 15px;
+    }
+  </style>
+</head>
+<div class="register">
+  <nav>
+    <a href="{{ url_for('main') }}">Главная</a>
+  </nav>
+  <h1>Регистрация или вход</h1>
+    <form method="post">
+      <input type="text" name="u" placeholder="Username" required="required" />
+        <input type="password" name="p" placeholder="Password" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Войти.</button>
+    </form>
+</div>
