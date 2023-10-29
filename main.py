@@ -1,9 +1,6 @@
-from flask import Flask, render_template, request, url_for, redirect, make_response, session
+from flask import Flask, render_template, request, url_for, redirect, session
 import sqlite3
 import library.tokens as tokens
-
-
-
 
 connection = sqlite3.connect("data/users.db", check_same_thread=False)
 cursor = connection.cursor()
@@ -13,23 +10,10 @@ key = 'PUTIN_BOMBA_WZRIW_CHECHNYA'
 app.secret_key = key
 
 
-
-
-@app.route('/registercss')
-def registercss():
-    return render_template('css/register.css')
-
-
-
-@app.route('/maincss')
-def maincss():
-    return render_template('main.css')
-@app.route('/nicepagecss')
-def nicepagecss():
-    return render_template('nicepage.css')
 @app.route('/')
 def main():
     return render_template('main.html')
+
 
 @app.route('/exit')
 def exit():
@@ -42,8 +26,7 @@ def exit():
         return redirect(url_for('register'))
 
 
-
-@app.route('/changename', methods = ['POST', 'GET'])
+@app.route('/changename', methods=['POST', 'GET'])
 def changename():
     token = session.get('token')
     if not token:
@@ -51,22 +34,26 @@ def changename():
     else:
         if request.method == 'POST':
             user = request.form['n']
-            cursor.execute("UPDATE oauth SET name = '{}' WHERE token = '{}'".format(user, token))
+            cursor.execute(
+                "UPDATE oauth SET name = '{}' WHERE token = '{}'".format(user, token))
             connection.commit()
             return redirect(url_for('account'))
         else:
             return render_template('changename.html')
+
+
 @app.route('/account')
 def account():
     token = session.get('token')
     if not token:
         return redirect(url_for('register'))
     else:
-        name = cursor.execute("SELECT name FROM oauth WHERE token = '{}'".format(token)).fetchone()[0]
-        return render_template('account.html', name = name)
+        name = cursor.execute(
+            "SELECT name FROM oauth WHERE token = '{}'".format(token)).fetchone()[0]
+        return render_template('account.html', name=name)
 
 
-@app.route('/register', methods = ['POST', 'GET'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
         user = request.form['u']
@@ -89,5 +76,10 @@ def register():
         else:
             return redirect(url_for('account'))
 
+@app.route('/aboutus', methods=['GET'])
+def aboutus():
+    return render_template('О-нас.html')
+
+
 if __name__ == '__main__':
-    app.run(port=80)
+    app.run(port=8080)
