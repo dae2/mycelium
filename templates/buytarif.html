@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="static/register.css">
+<head>
+  <style>
+    nav {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 5px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      margin: 15px;
+    }
+  </style>
+</head>
+<div class="changename">
+  <h1>Сменить тариф</h1>
+  <a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/account" style="padding: 10px 20px;">Аккаунт</a>
+    <form method="post">
+		<select name="choice">
+		  <option value="1">Free</option>
+		  <option value="2" selected>Community</option>
+		  <option value="3">Corporation</option>
+		</select>
+		<button type="submit" class="btn btn-primary btn-block btn-large">Подтвердить</button>
+    </form>
+</div>
