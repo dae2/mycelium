@@ -4,6 +4,7 @@ import library.tokens as tokens
 
 
 
+
 connection = sqlite3.connect("data/users.db", check_same_thread=False)
 cursor = connection.cursor()
 
@@ -19,6 +20,13 @@ def registercss():
     return render_template('css/register.css')
 
 
+
+@app.route('/maincss')
+def maincss():
+    return render_template('main.css')
+@app.route('/nicepagecss')
+def nicepagecss():
+    return render_template('nicepage.css')
 @app.route('/')
 def main():
     return render_template('main.html')
